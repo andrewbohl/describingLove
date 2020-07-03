@@ -1,0 +1,41 @@
+{
+  "name": "js_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon -e js, graphql -x node src/index.js",
+    "debug": "nodemon -e js, graphql -x node --inspect src/index.js",
+    "test": "jest",
+    "playground": "graphql playground --dotenv dev.env",
+    "dev": "npm-run-all --parallel debug playground",
+    "prismaUpdate": "npx prisma introspect npx prisma generate"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@prisma/cli": "2.1.3",
+    "eslint": "^6.8.0",
+    "@types/node": "12.12.37",
+    "@types/ws": "7.2.4"
+  },
+  "dependencies": {
+    "@nexus/schema": "0.14.0",
+    "@prisma/client": "2.1.3",
+    "apollo-server": "^2.15.0",
+    "apollo-server-express": "^2.15.0",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "1.4.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "graphql": "^14.6.0",
+    "graphql-cli": "^3.0.14",
+    "graphql-yoga": "^1.16.1",
+    "jest": "^25.4.0",
+    "nexus": "^0.12.0",
+    "nexus-prisma": "0.13.0",
+    "nodemon": "^2.0.3",
+    "npm-run-all": "^4.1.5",
+    "prisma-client-lib": "^1.34.10"
+  }
+}
