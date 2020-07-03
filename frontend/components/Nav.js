@@ -4,19 +4,13 @@ import NavStyles from './styles/NavStyles';
 const Nav = () => (
     <NavStyles>
         <Link href="/items">
-            <a>Items</a>
+            <a>Quotes</a>
         </Link>
-        <Link href="/roll">
-            <a>Roll</a>
+        <Link href="/submit">
+            <a>Add a Quote</a>
         </Link>
         <Link href="/signup">
             <a>Singup</a>
-        </Link>
-        <Link href="/orders">
-            <a>Orders</a>
-        </Link>
-        <Link href="/player">
-            <a>PlayerSheet</a>
         </Link>
     </NavStyles>
 )

@@ -1,48 +1,28 @@
-import App, {Container} from 'next/app';
+import App from 'next/app';
 import Page from '../components/Page';
-import diceRoll from './roll';
+import { ApolloProvider } from 'react-apollo';
+import withData from '../lib/withData';
 
 class MyApp extends App {
-    state = {
-        numberOfDice:0,
-        diceType:null,
-        rolls:[],
-        rollSum:0
-    };
-    diceRoll = (numberOfDice, diceType) => {
-        let rolls = [];
-        let rollSum = 0;
-        for(let die=0; die < numberOfDice; i++){
-            rolls[i] = Math.floor(Math.random() * diceType) + 1;
-            rollSum += rolls[i];
-        }    
-        this.setState({
-            numberOfDice,
-            rolls,
-            rollSum
-        });
-    };
+    
+    static async getInitialProps({ Component, ctx}){
+        let pageProps = {};
+        if(Component.getInitialProps) {
+            pageProps = await Component.getInitialProps(ctx);
+        }
+        // this exposes the query to the user
+        pageProps.query = ctx.query;
+        return { pageProps }
+    }
     render() {
-        const { Component } = this.props;
+        const { Component, apollo, pageProps } = this.props;
         return  (
-            <Page>
-                <Component />
-                <div className="buttons">
-                    {['d4', 'd6', 'd8', 'd10', 'd12', 'd20'].map(text => {
-                        let number = text.slice(1) == 1 ? "die" : "dice";
-                        return (
-                        <button
-                            key={text}
-                            onClick={() => this.diceRoll(number)}
-                            className="button"
-                        >
-                            {text}
-                        </button>
-                        );
-                    })}
-                </div>
-            </Page>
+            <ApolloProvider client={apollo}>
+                <Page>
+                    <Component {...pageProps}/>
+                </Page>
+            </ApolloProvider>
         )
     }
 }
-export default MyApp;
+export default withData(MyApp);

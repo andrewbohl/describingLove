@@ -1,28 +1,24 @@
 import Nav from './Nav';
 import styled from 'styled-components';
-import Link from 'next/Link';
 import Router from 'next/router';
-import NProgress from 'nprogress';
 
 Router.onRouteChangeStart = () => {
     console.log('Router change start');
-    NProgress.start();
     console.log('Should have started');
 };
 Router.onRouteChangeComplete = () => {
     console.log('Router change end');
-    NProgress.done();
+    // Change theme color
 };
 Router.onRouteChangeError = () => {
 
 };
 
 const StyleHeader = styled.header`
-    
     .bar {
-        background: ${props => props.theme.lightgrey};
-        color: ${props => props.theme.black};   
-        border-bottom: 10px solid ${props => props.theme.black};
+        background: ${props => props.theme.background_hex};
+        color: ${props => props.theme.accent1_hex};   
+        border-bottom: 10px solid ${props => props.theme.accent1_hex};
         display: grid;
         grid-template-columns: auto 1fr;
         justify-content: space-between;
@@ -37,10 +33,10 @@ const StyleHeader = styled.header`
         grid-template-columns: 1fr auto;
         border-bottom: 2px solid ${props => props.theme.black};
     }
-    
 `;
 
 const Logo = styled.h1`
+
     font-size: 4rem;
     margin-left: 2rem;
     position: relative;
@@ -48,7 +44,7 @@ const Logo = styled.h1`
     transform: skew(-7deg);
     a {
         padding: 0.5rem 1rem;
-        background: ${props => props.theme.black};
+        background: ${props => props.theme.background_hex};
         color: white;
         text-transform: uppercase;
         text-decoration: none;
@@ -59,20 +55,13 @@ const Logo = styled.h1`
     }
 `;
 
+
+
 const Header = () => (
         <StyleHeader>
             <div className="bar">
-                <Logo>
-                    <Link href="/">
-                        <a>Home Page</a>
-                    </Link>
-                </Logo>
                 <Nav /> 
             </div>
-            <div className="sub-bar">
-                <p>Search</p>
-            </div>
-            <div>Cart</div>
         </StyleHeader>
 )
 export default Header;
