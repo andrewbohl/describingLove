@@ -7,8 +7,9 @@ def validateColorStrings(key, colorString):
         try:
             int(colorString[1:], 16)
         except ValueError:
-            f'{key.lower()} is not a valid color in hex format'
-    return f'{key.lower()} is not a valid color in hex format'
+            return f'{key.lower()} is not a valid color in hex format'
+    else:
+        return f'{key.lower()} does not start with # or is not proper length'
             
 
 def payloadToColor(payload:dict):
@@ -18,15 +19,16 @@ def payloadToColor(payload:dict):
     #  "text": "#123456"
     # }
     # make sure keys are lower, values are 7 chars and start with #
-    errors = ''
+    errors = []
     for key, value in payload.items():
         if key not in ["id"]:
             key = key.lower()
             value = value.upper()
-            errors += validateColorStrings(key, value) + '\n'
-            if not errors:
+            error = validateColorStrings(key, value)
+            if not error:
                 color.key = value
-       
+            else:
+                errors.append(error)
     if errors:
         return errors
     return color
