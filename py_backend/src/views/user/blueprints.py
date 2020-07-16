@@ -29,12 +29,45 @@ def signup():
     # if request.method == "POST":
         payload = request.get_json()
         print(payload)
-        # data = json.loads(users.createUser(payload))
-        resp = make_response(jsonify(payload))
-        resp.cookie(key='token', value='cookie', domain='127.0.0.1', max_age=10000 )
-        # resp.headers['Access-Control-Allow-Credentials'] = 'true'
-        # set_access_cookies(resp, auth.encode_auth_token(payload['email']))
-        # resp.set_cookie(key='token', value=auth.encode_auth_token(payload['email']), domain='127.0.0.1', max_age=10000 )
+        data = users.createUser(payload)
+        resp = make_response(jsonify(data))
+        cookie_value = auth.encode_auth_token(data['data']['id'])
+        print(cookie_value)
+        resp.set_cookie(
+            key='descLoveCook', 
+            value=cookie_value,
+            domain='127.0.0.1',
+            max_age=1000*60*60*24*365 )
         return resp
+#signin
+@user_blueprints.route('/signin', methods=["POST"])
+def userSignin():
+    payload = request.get_json()
+    # check db for correct email and password
+    result = users.signinUser(payload)
+    if result['status'] == 200:
+        resp = make_response(jsonify(result))
+        cookie_value = auth.encode_auth_token(result['data']['id'])
+        resp.set_cookie(
+            key='descLoveCook', 
+            value=cookie_value,
+            domain='127.0.0.1',
+            max_age=1000*60*60*24*365 )
+        return resp
+    else:
+        return make_response(jsonify(result), result['status'])
 
+#logout
+@user_blueprints.route('/logout', methods=["GET"])
+def userLogout():
+    # clear cookie from session
+    # req = request.cookie
+    resp = make_response(jsonify({"message":"Succesfully logged out"}), 200)
+    resp.delete_cookie(
+            key='descLoveCook', 
+            domain='127.0.0.1',
+            )
+    return resp
+
+# edit permissions
     
