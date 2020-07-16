@@ -36,4 +36,4 @@ def health_check():
     return make_response(jsonify(status=200, msg="App is live and ready"))
 
 if __name__ == "__main__":
-    app.run(debug = True, port=4000)    
+    app.run(debug = True, port=4000, host="dev.localhost")    
