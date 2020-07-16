@@ -20,7 +20,7 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
     const propsToPassToComponent = { ...pageProps };
     return (
-      <StoreProvider>
+      // <StoreProvider>
         <ThemeProvider theme={theme}>
           <Head>
             <title>Describing Love</title>
@@ -28,7 +28,7 @@ class MyApp extends App {
           <Header />
           <Component {...propsToPassToComponent} />
         </ThemeProvider>
-      </StoreProvider>
+      // </StoreProvider>
     );
   }
 }

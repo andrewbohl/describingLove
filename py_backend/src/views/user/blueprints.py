@@ -1,9 +1,13 @@
+import json
+
 from flask import Blueprint, request, make_response, jsonify
 from flask_jwt_extended import set_access_cookies
 from flask_cors import CORS, cross_origin
+
+from src.lib.auth import decode_auth_token
 import src.views.user.connection as users
 import src.lib.auth as auth
-import json
+
 
 user_blueprints = Blueprint('user', __name__, url_prefix='/user')
 CORS(user_blueprints,
@@ -71,5 +75,16 @@ def userLogout():
             )
     return resp
 
+@user_blueprints.route("/me", methods=["GET"])
+@cross_origin(supports_credentials=True)
+def me():
+    cookie = request.cookies.get("descLoveCook")
+    if cookie:
+        userId = decode_auth_token(cookie)
+        user = users.userById(userId)
+        if user:
+            resp = make_response(jsonify(user))
+            return resp
+    return make_response(jsonify({"message":"User not found"}), 404)
 # edit permissions
     

@@ -14,19 +14,13 @@ def validateColorStrings(key, colorString):
 
 def payloadToColor(payload:dict):
     color = Color()
-    # {
-    #  "background": "#ABD4CF",
-    #  "text": "#123456"
-    # }
-    # make sure keys are lower, values are 7 chars and start with #
     errors = []
     for key, value in payload.items():
         if key not in ["id"]:
-            key = key.lower()
             value = value.upper()
             error = validateColorStrings(key, value)
             if not error:
-                color.key = value
+                setattr(color, key.lower(), value)
             else:
                 errors.append(error)
     if errors:

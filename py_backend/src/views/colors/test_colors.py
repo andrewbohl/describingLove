@@ -7,7 +7,7 @@ class TestColorFunctions(unittest.TestCase):
 
     def setUp(self):
         self.validPayload = {
-            "background": "#FF0000",
+            "BaCkGround": "#FF0000",
             "text": "#808000"
         }
         self.invalidColorText = {
@@ -29,6 +29,7 @@ class TestColorFunctions(unittest.TestCase):
 
     def test_returnPayloadReturnsValidObjectOrErrors(self):
         self.assertIsInstance(payloadToColor(self.invalidColorText), list)
+        self.assertEqual(len(payloadToColor(self.invalidColorText)), 2)
         self.assertIsInstance(payloadToColor(self.validPayload), Color)
 
 

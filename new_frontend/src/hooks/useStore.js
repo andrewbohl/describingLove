@@ -1,5 +1,5 @@
 import React from "react";
-import useLocalStore from "mobx-react";
+import {useLocalStore, observer} from "mobx-react";
 
 const StoreContext = React.createContext();
 
@@ -13,4 +13,4 @@ const StoreProvider = ({ children }) => {
     <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
   );
 };
-export default StoreProvider;
+export default observer(StoreProvider);

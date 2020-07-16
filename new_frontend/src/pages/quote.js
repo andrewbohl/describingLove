@@ -5,7 +5,7 @@ import ListPost from '../components/ListPosts';
 const QuotePage = (props)=>{
   return (
     <div>
-      <Quote id={props.query.id}/>
+      <Quote />
     </div>
   );
 }

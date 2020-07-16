@@ -1,5 +1,5 @@
 import uuid
-
+from src.types.Color import Color
 from database.postgres.connection import Postgres
 
 # Get one color combo
@@ -24,27 +24,45 @@ def getColorById(colorId: str):
 # def getManyColors(numColors:int)
 
 # Create new color combo
-# id_ = str(uuid.uuid4()).replace('-', '')
-# def createPost(payload):
-#     db = Postgres()
-#     id_ = str(uuid.uuid4()).replace('-', '')
-#     createdAt = datetime.datetime.now()
-#     updatedAt = createdAt
-#     #
-#     # author = read userId from cookie
-#     author = "1db8403bef7b44ccad5e2c47a8d45947"
-#     db.cur.execute(
-#         """ 
-#         INSERT INTO posts (id, title, description, postauthor, createdat, updatedat)
-#         VALUES (%s, %s, %s, %s, %s, %s)
-#     ;""", (id_, payload.get("title"), payload.get("description"), author, createdAt, updatedAt)
-#     )
-#     db.conn.commit()
-#     db.close_connection()
-#     return json.dumps({
-#         "status":201,
-#         "message": "post created"
-#     })
+def createColor(payload: Color):
+    db = Postgres()
+    id_ = str(uuid.uuid4()).replace('-', '')
+#     
+    db.cur.execute(
+        """ 
+        INSERT INTO colors (id, background, text)
+        VALUES (%s, %s, %s) RETURNING id
+    ;""", (id_, payload.background, payload.text)
+    )
+    created_id = db.cur.fetchone()[0]
+    db.conn.commit()
+    db.close_connection()
+    return {
+        "status":201,
+        "message": "color combination recorded",
+        "data": {"id":created_id}
+    }
 # edit color combo
 
 # delete color combo
+def deleteColor(colorId, userId):
+    # check if the user has delete permissions
+    db = Postgres()
+    db.cur.execute("""
+    SELECT permissions FROM users WHERE id = %s
+    ;""", (userId,))
+    # if they do, delete it
+    if db.cur.fetchone()[0]['permissions'] in ['DELETEITEM', 'ADMIN']:
+        db.cur.execute("""
+        DELETE FROM colors WHERE id = %s
+        ;""",(colorId,))
+        db.commit()
+        db.close_connection()
+        return {
+            "status": 200,
+            "message":"Color successfully deleted"
+        }
+    # if they dont, return error
+    else:
+        raise Exception("Invalid permissions to perform action")
+    

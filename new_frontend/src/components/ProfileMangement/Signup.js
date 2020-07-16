@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import postData from "../../lib/fetch";
+import {SignUpInForm} from "./FormStyles";
 
 const Signup = () => {
   const [state, setState] = useState({
@@ -15,7 +16,7 @@ const Signup = () => {
   return (
     <div>
       Signup!
-      <form
+      <SignUpInForm
         method="post"
         onSubmit={async (e) => {
           e.preventDefault();
@@ -65,7 +66,7 @@ const Signup = () => {
           </label>
           <button type="submit">Signup!</button>
         </fieldset>
-      </form>
+      </SignUpInForm>
     </div>
   );
 };

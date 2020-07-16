@@ -84,5 +84,19 @@ def signinUser(payload):
     return {"status": 200, "data": {"id": id_}}
 # getAllUsers
 # get single User
+def userById(userId):
+    db = Postgres()
+    db.cur.execute("SELECT id, name, email, permissions FROM users WHERE id = %s;", (userId,))
+    user = db.cur.fetchone()
+    if user:
+        return {
+            "status":200,
+            "data": {
+                "id":user[0],
+                "name":user[1],
+                "email":user[2],
+                "permissions":user[3]
+            }
+        }
 # updateUser
 # deleteUser

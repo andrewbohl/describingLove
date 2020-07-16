@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import Router from 'next/router';
+import Logout from './ProfileMangement/Logout';
+import User from "./ProfileMangement/User";
 
 Router.onRouteChangeStart = () => {
     console.log('Router change start');
@@ -51,6 +53,11 @@ const Logo = styled.h1`
 `;
 
 const Header = () => (
+    <User>
+        {({ data }) => {
+            console.log(data);
+      const me = data ? data.me : null;
+      return (
         <StyleHeader>
             <div className="bar">
                 <Logo>
@@ -69,7 +76,12 @@ const Header = () => (
                 <Link href="/signup">
                     <a>Signup</a>
                 </Link>
+                <Logout />
+                
             </div>
         </StyleHeader>
+        );
+      }}
+    </User>
 )
 export default Header;
