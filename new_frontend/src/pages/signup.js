@@ -1,10 +1,12 @@
 import React, { Fragment } from "react";
-import Signup from "../components/Signup";
+import Signup from "../components/ProfileMangement/Signup";
+import Signin from "../components/ProfileMangement/Signin"
 
 function signup() {
   return (
     <Fragment>
       <Signup />
+      <Signin />
     </Fragment>
   );
 }

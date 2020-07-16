@@ -41,6 +41,7 @@ def signup():
         return resp
 #signin
 @user_blueprints.route('/signin', methods=["POST"])
+@cross_origin(supports_credentials=True)
 def userSignin():
     payload = request.get_json()
     # check db for correct email and password
@@ -51,7 +52,7 @@ def userSignin():
         resp.set_cookie(
             key='descLoveCook', 
             value=cookie_value,
-            domain='127.0.0.1',
+            domain="dev.localhost",
             max_age=1000*60*60*24*365 )
         return resp
     else:
@@ -59,13 +60,14 @@ def userSignin():
 
 #logout
 @user_blueprints.route('/logout', methods=["GET"])
+@cross_origin(supports_credentials=True)
 def userLogout():
     # clear cookie from session
     # req = request.cookie
     resp = make_response(jsonify({"message":"Succesfully logged out"}), 200)
     resp.delete_cookie(
             key='descLoveCook', 
-            domain='127.0.0.1',
+            domain='dev.localhost',
             )
     return resp
 
