@@ -26,6 +26,8 @@ class User(Base):
     permissions = Column(String, default="USER")
     createdat = Column(DateTime, default=func.now())
     updatedat = Column(DateTime, default=func.now())
+    resetToken = Column(String)
+    resetTokenExpiry = Column(DateTime)
 
 class Colors(Base):
     __tablename__ = 'colors'
